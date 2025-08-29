@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +27,16 @@
 <h1>Thank You!</h1>
 <p>Your submission has been received.</p>
 
-<button class="cart-button" onclick="window.location.href='cart.html';">Go to Shopping Cart</button>
+<button class="cart-button" onclick="window.location.href='cart.html';">
+  Go to Shopping Cart
+</button>
+
+<script>
+  // Redirect automatically after 3 seconds
+  setTimeout(() => {
+    window.location.href = 'cart.html';
+  }, 3000);
+</script>
 
 </body>
 </html>
