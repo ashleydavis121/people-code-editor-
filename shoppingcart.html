@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopping Cart | People Code Editor</title>
@@ -289,6 +290,17 @@ document.querySelector(".checkout-btn").addEventListener("click", () => {
 
 updateCart();
 </script>
+<script>
+  const userEmail = localStorage.getItem("userEmail");
+  if(userEmail){
+    const welcomeDiv = document.createElement("div");
+    welcomeDiv.textContent = "Welcome, " + userEmail + "!";
+    welcomeDiv.style.fontWeight = "600";
+    welcomeDiv.style.marginBottom = "20px";
+    document.body.prepend(welcomeDiv);
+  }
+</script>
 
 </body>
 </html>
+
