@@ -5,85 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up | People Code Editor</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .signup-container {
-      background: #fff;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    input[type="email"] {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    button {
-      padding: 12px 25px;
-      font-size: 16px;
-      background: #00008B;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover {
-      background: #005bb5;
-    }
-    .message {
-      margin-top: 15px;
-      color: green;
-      font-weight: bold;
-    }
+    body { font-family: Arial, sans-serif; display:flex; justify-content:center; align-items:center; height:100vh; background:#f4f4f9; }
+    .signup-container { background:#fff; padding:40px; border-radius:10px; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center; }
+    input { width:100%; padding:10px; margin:10px 0; border-radius:6px; border:1px solid #ccc; }
+    button { padding:12px 20px; background:#00008B; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:16px; }
+    button:hover { background:#005bb5; }
   </style>
 </head>
 <body>
+  <div class="signup-container">
+    <h1>Sign Up</h1>
+    <form id="signup-form">
+      <input type="email" id="email" placeholder="Enter your email" required>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
 
-<div class="signup-container">
-  <h2>Sign Up</h2>
-  <p>Enter your email to continue to the shopping cart:</p>
-  <input type="email" id="email" placeholder="you@example.com" required />
-  <button id="signup-btn">Sign Up</button>
-  <div class="message" id="message"></div>
-</div>
-
-<script>
-  const signupBtn = document.getElementById('signup-btn');
-  const emailInput = document.getElementById('email');
-  const messageDiv = document.getElementById('message');
-
-  signupBtn.addEventListener('click', () => {
-    const email = emailInput.value.trim();
-    
-    if (email === "") {
-      messageDiv.textContent = "Please enter a valid email.";
-      return;
-    }
-
-    // Store email in localStorage
-    localStorage.setItem('userEmail', email);
-
-    // Optional: show message
-    messageDiv.textContent = "Thank you! Redirecting...";
-
-    // Redirect to shopping cart after short delay
-    setTimeout(() => {
-      window.location.href = 'cart.html'; // Replace with your shopping cart page
-    }, 500); // 0.5 second delay
-  });
-</script>
-
+  <script>
+    const form = document.getElementById("signup-form");
+    form.addEventListener("submit", function(e) {
+      e.preventDefault(); // Prevent page refresh
+      const email = document.getElementById("email").value;
+      localStorage.setItem("userEmail", email); // Save email locally
+      window.location.href = "cart.html"; // Redirect to your shopping cart
+    });
+  </script>
 </body>
 </html>
+
+
 
