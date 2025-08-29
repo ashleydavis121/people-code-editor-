@@ -1,0 +1,75 @@
+/* signup.css */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f3f4f6;
+  margin: 0;
+}
+
+.signup-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.signup-container {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  width: 400px;
+  max-width: 100%;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #f9fafb;
+  transition: border-color 0.2s;
+}
+
+input:focus, textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 0.85rem;
+  background: #3b82f6;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 1rem;
+  text-align: center;
+}

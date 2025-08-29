@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup | People Code Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .thankyou-wrapper {
+      display: none; /* Hidden initially */
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .thankyou-wrapper img {
+      width: 150px;
+      height: 150px;
+    }
+
+    .thankyou-wrapper h1 {
+      color: #00008B;
+      margin: 20px 0 10px;
+    }
+
+    .thankyou-wrapper p {
+      color: #333;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .thankyou-wrapper button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 600px;
+      height: 800px; /* Adjust based on form size */
+      border: none;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- JotForm Embed -->
+  <iframe id="JotFormIFrame-252394105416049"
+          title="People Code Editor Form"
+          allowtransparency="true"
+          allow="geolocation; microphone; camera; fullscreen; payment"
+          src="https://form.jotform.com/252394105416049"
+          scrolling="no">
+  </iframe>
+
+  <script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
+  <script>
+    window.jotformEmbedHandler("iframe[id='JotFormIFrame-252394105416049']", "https://form.jotform.com/");
+  </script>
+
+  <!-- Thank You Section -->
+  <div class="thankyou-wrapper" id="thankyou">
+    <img src="https://cdn.jotfor.ms/img/Thankyou-iconV2.png?v=0.1" alt="Thank You Icon">
+    <h1>Thank You!</h1>
+    <p>Your submission has been received.</p>
+    <button onclick="window.location.href='shopping-cart.html'">Go to Shopping Cart</button>
+  </div>
+
+  <script>
+    // Listen for JotForm submission
+    window.addEventListener('message', function(e) {
+      if (e.data && e.data.type === 'submission-completed') {
+        document.getElementById('JotFormIFrame-252394105416049').style.display = 'none';
+        document.getElementById('thankyou').style.display = 'block';
+      }
+    }, false);
+  </script>
+
+</body>
+</html>
