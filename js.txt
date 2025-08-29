@@ -1,0 +1,57 @@
+<!-- Include CodeMirror styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/codemirror.css">
+
+<!-- Editor container -->
+<div id="html-editor"></div>
+<div id="css-editor"></div>
+<div id="js-editor"></div>
+
+<!-- Preview iframe -->
+<iframe id="preview"></iframe>
+
+<!-- Include CodeMirror scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@codemirror/basic-setup@6.0.0/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@codemirror/lang-html@6.0.0/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@codemirror/lang-css@6.0.0/dist/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js"></script>
+
+<script>
+  const {EditorView, basicSetup} = CM["@codemirror/basic-setup"];
+  const {html} = CM["@codemirror/lang-html"];
+  const {css} = CM["@codemirror/lang-css"];
+  const {javascript} = CM["@codemirror/lang-javascript"];
+
+  const htmlEditor = new EditorView({
+    doc: '<h1>Hello World</h1>',
+    extensions: [basicSetup, html()],
+    parent: document.getElementById('html-editor')
+  });
+
+  const cssEditor = new EditorView({
+    doc: 'h1 { color: red; }',
+    extensions: [basicSetup, css()],
+    parent: document.getElementById('css-editor')
+  });
+
+  const jsEditor = new EditorView({
+    doc: 'console.log("Hello World");',
+    extensions: [basicSetup, javascript()],
+    parent: document.getElementById('js-editor')
+  });
+
+  const preview = document.getElementById('preview');
+
+  function updatePreview() {
+    const htmlCode = htmlEditor.state.doc.toString();
+    const cssCode = `<style>${cssEditor.state.doc.toString()}</style>`;
+    const jsCode = `<script>${jsEditor.state.doc.toString()}<\/script>`;
+    preview.srcdoc = `${htmlCode}${cssCode}${jsCode}`;
+  }
+
+  [htmlEditor, cssEditor, jsEditor].forEach(editor => {
+    editor.dispatch = editor.dispatch.bind(editor); // ensure correct context
+    editor.dom.addEventListener('input', updatePreview);
+  });
+
+  updatePreview(); // initial preview
+</script>

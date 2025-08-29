@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Editor - People Code Editor</title>
+<link rel="stylesheet" href="style.css"> <!-- Header/footer/menu -->
+<link rel="stylesheet" href="editor.css"> <!-- Editor-specific styles -->
+</head>
+<body>
+
+<header>
+<nav class="main-nav">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="editor.html">Editor</a></li>
+    <li><a href="project.html">Project</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="signup.html">Sign Up</a></li> <!-- New menu link -->
+    <li><a href="contact.html">Contact Us</a></li>
+  </ul>
+</nav>
+
+
+</header>
+
+<main class="page-content">
+  <div class="container">
+
+    <div class="editors-wrapper">
+
+      <div class="editors">
+
+        <div class="editor-row">
+          <div class="code-box">
+            <div class="title-bar"><div class="title-text">HTML</div></div>
+            <textarea id="html-code" placeholder="Write your HTML here..."></textarea>
+          </div>
+          <div class="code-box">
+            <div class="title-bar"><div class="title-text">CSS</div></div>
+            <textarea id="css-code" placeholder="Write your CSS here..."></textarea>
+          </div>
+        </div>
+
+        <div class="editor-row">
+          <div class="code-box">
+            <div class="title-bar"><div class="title-text">JavaScript</div></div>
+            <textarea id="js-code" placeholder="Write your JavaScript here..."></textarea>
+          </div>
+          <div class="code-box">
+            <div class="title-bar"><div class="title-text">Python</div></div>
+            <textarea id="python-code" placeholder="Write your Python here... (No live preview)"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="save-container">
+        <button id="save-code-btn" title="Save your code">💾 Save Code</button>
+        <button id="download-code-btn" title="Download your code">⬇️ Download Code</button>
+      </div>
+
+    </div>
+
+    <div class="preview-container">
+      <iframe id="preview" sandbox="allow-scripts" title="Live Preview"></iframe>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 People Code Editor. All rights reserved.</p>
+</footer>
+
+<script>
+const htmlCode = document.getElementById('html-code');
+const cssCode = document.getElementById('css-code');
+const jsCode = document.getElementById('js-code');
+const pythonCode = document.getElementById('python-code');
+const preview = document.getElementById('preview');
+const saveCodeBtn = document.getElementById('save-code-btn');
+const downloadBtn = document.getElementById('download-code-btn');
+
+// Load code from localStorage on page load
+window.onload = () => {
+  htmlCode.value = localStorage.getItem('code-html') || '';
+  cssCode.value = localStorage.getItem('code-css') || '';
+  jsCode.value = localStorage.getItem('code-js') || '';
+  pythonCode.value = localStorage.getItem('code-python') || '';
+  updatePreview();
+};
+
+// Live preview function
+function updatePreview() {
+  const html = htmlCode.value;
+  const css = `<style>${cssCode.value}</style>`;
+  const js = `<script>${jsCode.value}<\/script>`;
+  preview.srcdoc = `${html}${css}${js}`;
+}
+
+// Update preview when typing
+htmlCode.addEventListener('input', updatePreview);
+cssCode.addEventListener('input', updatePreview);
+jsCode.addEventListener('input', updatePreview);
+
+// Save code
+saveCodeBtn.addEventListener('click', () => {
+  localStorage.setItem('code-html', htmlCode.value);
+  localStorage.setItem('code-css', cssCode.value);
+  localStorage.setItem('code-js', jsCode.value);
+  localStorage.setItem('code-python', pythonCode.value);
+  alert('Code saved successfully!');
+});
+
+// Download code as HTML
+downloadBtn.addEventListener('click', () => {
+  const html = htmlCode.value;
+  const css = `<style>${cssCode.value}</style>`;
+  const js = `<script>${jsCode.value}<\/script>`;
+  const fullHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Downloaded Code</title>
+${css}
+</head>
+<body>
+${html}
+${js}
+</body>
+</html>`;
+  const blob = new Blob([fullHTML], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'my-code.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+</script>
+
+</body>
+</html>
+
