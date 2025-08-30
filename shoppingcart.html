@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Cart | People Code Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shopping.css">
+
+</head>
+<body>
+
+<div class="cart-container">
+  <h1>Your Shopping Cart</h1>
+
+  <!-- Currency Selector -->
+  <div class="currency-select">
+    <label for="currency">Currency: </label>
+    <select id="currency"></select>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="product-name">People Code Editor Pro</td>
+        <td><input type="number" min="1" value="1" class="quantity-input" /></td>
+        <td class="price" data-gbp="79.99">£79.99</td>
+        <td class="subtotal" data-gbp="79.99">£79.99</td>
+        <td><button class="remove-btn">X</button></td>
+      </tr>
+      <tr>
+        <td class="product-name">AI Plugin Pack</td>
+        <td><input type="number" min="1" value="2" class="quantity-input" /></td>
+        <td class="price" data-gbp="19.99">£19.99</td>
+        <td class="subtotal" data-gbp="39.98">£39.98</td>
+        <td><button class="remove-btn">X</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="total" data-gbp="119.97">Total: £119.97</div>
+
+  <div class="discount-section" style="margin-bottom: 20px;">
+    <label for="discount-code">Discount Code:</label>
+    <input type="text" id="discount-code" placeholder="Enter code" />
+    <button id="apply-discount">Apply</button>
+    <div id="discount-message" style="color:green; margin-top:5px;"></div>
+  </div>
+
+  <div id="discount-info" style="color: blue; margin-bottom: 20px;"></div>
+  <button class="checkout-btn">Proceed to Checkout</button>
+</div>
+
+<script>
+// --- 1. Currency list (can expand easily) ---
+const currencies = [
+  { code:"GBP", symbol:"£" }, { code:"USD", symbol:"$" }, { code:"EUR", symbol:"€" },
+  { code:"JPY", symbol:"¥" }, { code:"AUD", symbol:"A$" }, { code:"CAD", symbol:"C$" },
+  { code:"CHF", symbol:"CHF" }, { code:"CNY", symbol:"¥" }, { code:"SEK", symbol:"kr" },
+  { code:"NZD", symbol:"NZ$" }
+  // Add more currencies here if needed
+];
+
+// --- 2. Populate dropdown dynamically ---
+const currencyDropdown = document.getElementById("currency");
+currencies.forEach(curr => {
+  const option = document.createElement("option");
+  option.value = curr.code;
+  option.textContent = `${curr.symbol} ${curr.code}`;
+  currencyDropdown.appendChild(option);
+});
+
+// --- 3. Currency rates ---
+const rates = {
+  GBP:1, USD:1.27, EUR:1.16, JPY:185.42, AUD:1.85, CAD:1.68, CHF:1.14, CNY:8.87, SEK:14.05, NZD:2.02
+  // Expand rates as currencies expand
+};
+
+// --- 4. Currency symbols for formatting ---
+const currencySymbols = {};
+currencies.forEach(c => currencySymbols[c.code] = c.symbol);
+
+// --- 5. Elements ---
+const priceElements = document.querySelectorAll(".price");
+const quantityInputs = document.querySelectorAll(".quantity-input");
+const subtotalElements = document.querySelectorAll(".subtotal");
+const totalElement = document.querySelector(".total");
+
+// --- 6. Format numbers ---
+function formatNumber(num) {
+  return Number(num).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+// --- 7. Update price column ---
+function updatePriceDisplay() {
+  const currency = currencyDropdown.value;
+  const symbol = currencySymbols[currency] || currency;
+
+  priceElements.forEach(priceEl => {
+    const gbpPrice = parseFloat(priceEl.dataset.gbp);
+    priceEl.textContent = symbol + formatNumber(gbpPrice * rates[currency]);
+  });
+}
+
+// --- 8. Update subtotal for a row ---
+function updateSubtotal(row) {
+  const qtyEl = row.querySelector(".quantity-input");
+  const subtotalEl = row.querySelector(".subtotal");
+  const priceEl = row.querySelector(".price");
+
+  const gbpPrice = parseFloat(priceEl.dataset.gbp);
+  const qty = parseFloat(qtyEl.value);
+  const currency = currencyDropdown.value;
+  const rate = rates[currency];
+  const symbol = currencySymbols[currency] || currency;
+
+  const subtotal = gbpPrice * qty * rate;
+  subtotalEl.textContent = symbol + formatNumber(subtotal);
+}
+
+// --- 9. Update entire cart ---
+function updateCart() {
+  updatePriceDisplay();
+  subtotalElements.forEach(el => updateSubtotal(el.closest("tr")));
+
+  let totalGBP = 0;
+  priceElements.forEach((priceEl, index) => {
+    const qty = parseFloat(quantityInputs[index].value);
+    totalGBP += parseFloat(priceEl.dataset.gbp) * qty;
+  });
+
+  const currency = currencyDropdown.value;
+  const rate = rates[currency];
+  const symbol = currencySymbols[currency] || currency;
+  totalElement.textContent = "Total: " + symbol + formatNumber(totalGBP * rate);
+}
+
+// --- 10. Event listeners ---
+currencyDropdown.addEventListener("change", updateCart);
+quantityInputs.forEach(input => input.addEventListener("input", updateCart));
+
+// --- 11. Initial update ---
+updateCart();
+
+// --- 12. Discount codes ---
+const discountCodes = { "TEST10":10, "SAVE5":5 };
+document.getElementById("apply-discount").addEventListener("click", () => {
+  const code = document.getElementById("discount-code").value.trim().toUpperCase();
+  const discountMessage = document.getElementById("discount-message");
+
+  if(discountCodes[code]){
+    const discountPercent = discountCodes[code];
+    let totalGBP = 0;
+    priceElements.forEach((priceEl, i) => {
+      const qty = parseFloat(quantityInputs[i].value);
+      totalGBP += parseFloat(priceEl.dataset.gbp) * qty;
+    });
+    const discountedTotalGBP = totalGBP * (1 - discountPercent / 100);
+    const currency = currencyDropdown.value;
+    const symbol = currencySymbols[currency] || currency;
+    totalElement.textContent = "Total: " + symbol + formatNumber(discountedTotalGBP * rates[currency]);
+    discountMessage.textContent = `Discount applied: ${discountPercent}% off!`;
+  } else {
+    discountMessage.textContent = "Invalid discount code.";
+  }
+});
+</script>
+
+</body>
+</html>
