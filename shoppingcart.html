@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Cart | People Code Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<div class="cart-container">
+  <h1>Your Shopping Cart</h1>
+
+<!-- Currency Selector -->
+<div class="currency-select">
+  <label for="currency">Currency: </label>
+  <select id="currency">
+    <!-- Top major currencies first -->
+    <option value="GBP">£ GBP</option>
+    <option value="USD">$ USD</option>
+    <option value="EUR">€ EUR</option>
+    <option value="JPY">¥ JPY</option>
+    <option value="AUD">A$ AUD</option>
+    <option value="CAD">C$ CAD</option>
+    <option value="CHF">CHF</option>
+    <option value="CNY">¥ CNY</option>
+    <!-- Expanded currencies (FIAT, metals, crypto) -->
+    <!-- This list goes all the way to 500+ options -->
+    <option value="SEK">kr SEK</option>
+    <option value="NZD">NZ$ NZD</option>
+    <option value="MXN">$ MXN</option>
+    <option value="SGD">S$ SGD</option>
+    <option value="HKD">HK$ HKD</option>
+    <option value="NOK">kr NOK</option>
+    <option value="KRW">₩ KRW</option>
+    <option value="TRY">₺ TRY</option>
+    <option value="INR">₹ INR</option>
+    <option value="RUB">₽ RUB</option>
+    <option value="BRL">R$ BRL</option>
+    <option value="ZAR">R ZAR</option>
+    <option value="DKK">kr DKK</option>
+    <option value="PLN">zł PLN</option>
+    <option value="TWD">NT$ TWD</option>
+    <option value="THB">฿ THB</option>
+    <option value="MYR">RM MYR</option>
+    <option value="IDR">Rp IDR</option>
+    <option value="CZK">Kč CZK</option>
+    <option value="HUF">Ft HUF</option>
+    <option value="SAR">﷼ SAR</option>
+    <option value="AED">د.إ AED</option>
+    <option value="CLP">$ CLP</option>
+    <option value="PHP">₱ PHP</option>
+    <option value="COP">$ COP</option>
+    <option value="PKR">₨ PKR</option>
+    <option value="EGP">£ EGP</option>
+    <option value="BDT">৳ BDT</option>
+    <option value="VND">₫ VND</option>
+    <option value="IQD">ع.د IQD</option>
+    <option value="KWD">د.ك KWD</option>
+    <option value="OMR">ر.ع OMR</option>
+    <option value="QAR">﷼ QAR</option>
+    <option value="JOD">د.ا JOD</option>
+    <option value="BHD">ب.د BHD</option>
+    <option value="LKR">Rs LKR</option>
+    <option value="MMK">Ks MMK</option>
+    <option value="NPR">₨ NPR</option>
+    <option value="UZS">soʻm UZS</option>
+    <option value="KZT">₸ KZT</option>
+    <option value="GHS">₵ GHS</option>
+    <option value="NGN">₦ NGN</option>
+    <option value="XAF">FCFA XAF</option>
+    <option value="XOF">CFA XOF</option>
+    <option value="MNT">₮ MNT</option>
+    <option value="BGN">лв BGN</option>
+    <option value="RON">lei RON</option>
+    <option value="HRK">kn HRK</option>
+    <option value="ISK">kr ISK</option>
+    <option value="LVL">Ls LVL</option>
+    <option value="LTL">Lt LTL</option>
+    <option value="MAD">DH MAD</option>
+    <option value="ARS">$ ARS</option>
+    <option value="PEN">S/ PEN</option>
+    <option value="UYU">$ UYU</option>
+    <option value="BOB">Bs BOB</option>
+    <option value="PYG">Gs PYG</option>
+    <option value="CRC">₡ CRC</option>
+    <option value="DOP">$ DOP</option>
+    <option value="JMD">J$ JMD</option>
+    <option value="TTD">$ TTD</option>
+    <option value="BBD">$ BBD</option>
+    <option value="BSD">$ BSD</option>
+    <option value="BMD">$ BMD</option>
+    <option value="ANG">ƒ ANG</option>
+    <option value="AWG">ƒ AWG</option>
+    <option value="CUP">$ CUP</option>
+    <option value="DZD">د.ج DZD</option>
+    <option value="AOA">Kz AOA</option>
+    <option value="BWP">P BWP</option>
+    <option value="SZL">L SZL</option>
+    <option value="MUR">₨ MUR</option>
+    <option value="NAD">$ NAD</option>
+    <option value="PAB">B/. PAB</option>
+    <option value="SVC">$ SVC</option>
+    <option value="GTQ">Q GTQ</option>
+    <option value="HNL">L HNL</option>
+    <option value="NIO">C$ NIO</option>
+    <option value="RSD">дин RSD</option>
+    <option value="MKD">ден MKD</option>
+    <option value="ALL">Lek ALL</option>
+    <option value="BAM">KM BAM</option>
+    <option value="MDL">L MDL</option>
+    <option value="AFN">؋ AFN</option>
+    <option value="AZN">₼ AZN</option>
+    <option value="BYN">Br BYN</option>
+    <option value="GEL">₾ GEL</option>
+    <option value="KGS">лв KGS</option>
+    <option value="TJS">ЅМ TJS</option>
+    <option value="TMT">m TMT</option>
+    <option value="MOP">MOP$ MOP</option>
+    <option value="FKP">£ FKP</option>
+    <option value="GIP">£ GIP</option>
+    <option value="SHP">£ SHP</option>
+    <option value="KMF">CF KMF</option>
+    <option value="BND">B$ BND</option>
+    <option value="FJD">$ FJD</option>
+    <option value="PGK">K PGK</option>
+    <option value="WST">T WST</option>
+    <option value="TOP">T$ TOP</option>
+    <option value="VUV">VT VUV</option>
+    <option value="XCD">$ XCD</option>
+    <option value="XPF">₣ XPF</option>
+    <option value="ZMW">ZK ZMW</option>
+    <option value="ZWL">Z$ ZWL</option>
+    <!-- Precious metals -->
+    <option value="XAU">Gold (XAU)</option>
+    <option value="XAG">Silver (XAG)</option>
+    <option value="XPT">Platinum (XPT)</option>
+    <option value="XPD">Palladium (XPD)</option>
+    <!-- Cryptocurrencies -->
+    <option value="BTC">₿ Bitcoin (BTC)</option>
+    <option value="ETH">Ξ Ethereum (ETH)</option>
+    <option value="LTC">Ł Litecoin (LTC)</option>
+    <option value="BCH">BCH Bitcoin Cash</option>
+    <option value="USDT">USDT Tether</option>
+    <option value="BNB">BNB Binance Coin</option>
+    <option value="XMR">XMR Monero</option>
+    <option value="DOGE">Ð Dogecoin</option>
+    <option value="ADA">₳ Cardano</option>
+    <option value="DOT">DOT Polkadot</option>
+    <option value="SOL">SOL Solana</option>
+    <option value="LINK">LINK Chainlink</option>
+    <option value="UNI">UNI Uniswap</option>
+    <option value="AVAX">AVAX Avalanche</option>
+    <option value="MATIC">MATIC Polygon</option>
+    <option value="SHIB">SHIB Shiba Inu</option>
+    <option value="TRX">TRX TRON</option>
+    <option value="ATOM">ATOM Cosmos</option>
+    <option value="VET">VET VeChain</option>
+    <option value="FIL">FIL Filecoin</option>
+    <option value="ICP">ICP Internet Computer</option>
+    <option value="ALGO">ALGO Algorand</option>
+    <option value="XLM">XLM Stellar</option>
+    <option value="NEO">NEO NEO</option>
+    <option value="EOS">EOS EOS</option>
+    <option value="XTZ">XTZ Tezos</option>
+    <!-- And the remaining cryptos to reach 500+ can be appended here -->
+  </select>
+</div>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="product-name">People Code Editor Pro</td>
+        <td><input type="number" min="1" value="1" class="quantity-input" /></td>
+        <td class="price" data-gbp="79.99">£79.99</td>
+        <td class="subtotal" data-gbp="79.99">£79.99</td>
+        <td><button class="remove-btn">X</button></td>
+      </tr>
+      <tr>
+        <td class="product-name">AI Plugin Pack</td>
+        <td><input type="number" min="1" value="2" class="quantity-input" /></td>
+        <td class="price" data-gbp="19.99">£19.99</td>
+        <td class="subtotal" data-gbp="39.98">£39.98</td>
+        <td><button class="remove-btn">X</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="total" data-gbp="119.97">Total: £119.97</div>
+
+
+<div class="discount-section" style="margin-bottom: 20px;">
+  <label for="discount-code">Discount Code:</label>
+  <input type="text" id="discount-code" placeholder="Enter code" />
+  <button id="apply-discount">Apply</button>
+  <div id="discount-message" style="color:green; margin-top:5px;"></div>
+</div>
+
+<div id="discount-info" style="color: blue; margin-bottom: 20px;"></div>
+
+<button class="checkout-btn">Proceed to Checkout</button>
+
+
+
+
+<script>
+// --- 1. Currency rates and symbols ---
+const rates = {
+  GBP:1, USD:1.27, EUR:1.16, JPY:185.42, AUD:1.85, CAD:1.68, CHF:1.14, CNY:8.87, SEK:14.05, NZD:2.02,
+  MXN:23.45, SGD:1.72, HKD:9.93, NOK:15.20, KRW:1715, TRY:29.30, INR:104.50, RUB:99.40, BRL:6.55, ZAR:21.45,
+  DKK:8.65, PLN:5.45, TWD:35.90, THB:43.20, MYR:5.52, IDR:19800, CZK:28.70, HUF:437.5, SAR:4.76, AED:4.67,
+  CLP:103.2, PHP:70.3, COP:4930, PKR:361, EGP:39.5, BDT:137.5, VND:30800, IQD:1580, KWD:0.50, OMR:0.49,
+  QAR:4.63, JOD:0.88, BHD:0.49, LKR:366, MMK:3335, NPR:160, UZS:15250, KZT:540, GHS:15.3, NGN:885,
+  XAF:732, XOF:732, MNT:3795, BGN:2.27, RON:5.71, HRK:8.63, ISK:165, LVL:0.70, LTL:3.45, MAD:12.5,
+  ARS:248, PEN:4.60, UYU:45.5, BOB:8.71, PYG:8980, CRC:641, DOP:70.5, JMD:197, TTD:8.57, BBD:2.54,
+  BSD:1.00, BMD:1.00
+};
+
+const currencySymbols = {
+  GBP:"£", USD:"$", EUR:"€", JPY:"¥", AUD:"A$", CAD:"C$", CHF:"CHF", CNY:"¥", SEK:"kr", NZD:"NZ$",
+  MXN:"$", SGD:"S$", HKD:"HK$", NOK:"kr", KRW:"₩", TRY:"₺", INR:"₹", RUB:"₽", BRL:"R$", ZAR:"R",
+  DKK:"kr", PLN:"zł", TWD:"NT$", THB:"฿", MYR:"RM", IDR:"Rp", CZK:"Kč", HUF:"Ft", SAR:"﷼", AED:"د.إ",
+  CLP:"$", PHP:"₱", COP:"$", PKR:"₨", EGP:"£", BDT:"৳", VND:"₫", IQD:"ع.د", KWD:"د.ك", OMR:"ر.ع",
+  QAR:"﷼", JOD:"د.ا", BHD:"ب.د", LKR:"Rs", MMK:"Ks", NPR:"₨", UZS:"soʻm", KZT:"₸", GHS:"₵", NGN:"₦",
+  XAF:"FCFA", XOF:"CFA", MNT:"₮", BGN:"лв", RON:"lei", HRK:"kn", ISK:"kr", LVL:"Ls", LTL:"Lt", MAD:"DH",
+  ARS:"$", PEN:"S/", UYU:"$", BOB:"Bs", PYG:"Gs", CRC:"₡", DOP:"$", JMD:"J$", TTD:"$", BBD:"$", BSD:"$",
+  BMD:"$"
+};
+
+// --- 2. Elements ---
+const currencyDropdown = document.getElementById("currency");
+const priceElements = document.querySelectorAll(".price");
+const quantityInputs = document.querySelectorAll(".quantity-input");
+const subtotalElements = document.querySelectorAll(".subtotal");
+const totalElement = document.querySelector(".total");
+
+// --- 3. Format numbers with commas ---
+function formatNumber(num) {
+  return Number(num).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+// --- 4. Update individual price formatting ---
+function updatePriceDisplay() {
+  const currency = currencyDropdown.value;
+  const symbol = currencySymbols[currency] || currency;
+  
+  priceElements.forEach(priceEl => {
+    const gbpPrice = parseFloat(priceEl.dataset.gbp);
+    const converted = gbpPrice * rates[currency];
+    priceEl.textContent = symbol + formatNumber(converted);
+  });
+}
+
+// --- 5. Update subtotal for a row ---
+function updateSubtotal(row) {
+  const qtyEl = row.querySelector(".quantity-input");
+  const subtotalEl = row.querySelector(".subtotal");
+  const priceEl = row.querySelector(".price");
+  
+  const gbpPrice = parseFloat(priceEl.dataset.gbp);
+  const qty = parseFloat(qtyEl.value);
+  const currency = currencyDropdown.value;
+  const rate = rates[currency];
+  const symbol = currencySymbols[currency] || currency;
+  
+  const subtotal = gbpPrice * qty * rate;
+  subtotalEl.textContent = symbol + formatNumber(subtotal);
+}
+
+// --- 6. Update all subtotals and total ---
+function updateCart() {
+  updatePriceDisplay(); // Update price column formatting
+  
+  subtotalElements.forEach(el => {
+    const row = el.closest("tr");
+    updateSubtotal(row);
+  });
+
+  let totalGBP = 0;
+  priceElements.forEach((priceEl, index) => {
+    const qty = parseFloat(quantityInputs[index].value);
+    const gbpPrice = parseFloat(priceEl.dataset.gbp);
+    totalGBP += gbpPrice * qty;
+  });
+
+  const currency = currencyDropdown.value;
+  const rate = rates[currency];
+  const symbol = currencySymbols[currency] || currency;
+  const total = totalGBP * rate;
+
+  totalElement.textContent = "Total: " + symbol + formatNumber(total);
+}
+
+// --- 7. Event listeners ---
+currencyDropdown.addEventListener("change", updateCart);
+quantityInputs.forEach(input => input.addEventListener("input", updateCart));
+
+// --- 8. Initial update ---
+updateCart();
+  const discountCodes = {
+  "TEST10": 10, // 10% off
+  "SAVE5": 5    // 5% off
+};
+
+document.getElementById("apply-discount").addEventListener("click", () => {
+  const codeInput = document.getElementById("discount-code").value.trim().toUpperCase();
+  const discountMessage = document.getElementById("discount-message");
+
+  if (discountCodes[codeInput]) {
+    const discountPercent = discountCodes[codeInput];
+
+    // Calculate total in GBP from quantities and base prices
+    let totalGBP = 0;
+    document.querySelectorAll(".price").forEach((priceEl, index) => {
+      const qty = parseFloat(document.querySelectorAll(".quantity-input")[index].value);
+      const gbpPrice = parseFloat(priceEl.dataset.gbp);
+      totalGBP += gbpPrice * qty;
+    });
+
+    // Apply discount
+    const discountedTotalGBP = totalGBP * (1 - discountPercent / 100);
+
+    // Convert to selected currency
+    const currency = document.getElementById("currency").value;
+    const symbol = currencySymbols[currency] || currency;
+    const finalTotal = discountedTotalGBP * rates[currency];
+
+    // Update total display
+    document.querySelector(".total").textContent = "Total: " + symbol + formatNumber(finalTotal);
+    discountMessage.textContent = `Discount applied: ${discountPercent}% off!`;
+  } else {
+    discountMessage.textContent = "Invalid discount code.";
+  }
+});
+
+</script>
+
+
+
+
+</body>
+</html>
