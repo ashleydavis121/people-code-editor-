@@ -167,7 +167,6 @@
   </select>
 </div>
 
-
   <table>
     <thead>
       <tr>
@@ -198,7 +197,6 @@
 
   <div class="total" data-gbp="119.97">Total: £119.97</div>
 
-
 <div class="discount-section" style="margin-bottom: 20px;">
   <label for="discount-code">Discount Code:</label>
   <input type="text" id="discount-code" placeholder="Enter code" />
@@ -210,11 +208,8 @@
 
 <button class="checkout-btn">Proceed to Checkout</button>
 
-
-
-
 <script>
-// --- 1. Currency rates and symbols ---
+// ----------------- ORIGINAL SCRIPT -----------------
 const rates = {
   GBP:1, USD:1.27, EUR:1.16, JPY:185.42, AUD:1.85, CAD:1.68, CHF:1.14, CNY:8.87, SEK:14.05, NZD:2.02,
   MXN:23.45, SGD:1.72, HKD:9.93, NOK:15.20, KRW:1715, TRY:29.30, INR:104.50, RUB:99.40, BRL:6.55, ZAR:21.45,
@@ -237,19 +232,16 @@ const currencySymbols = {
   BMD:"$"
 };
 
-// --- 2. Elements ---
 const currencyDropdown = document.getElementById("currency");
 const priceElements = document.querySelectorAll(".price");
 const quantityInputs = document.querySelectorAll(".quantity-input");
 const subtotalElements = document.querySelectorAll(".subtotal");
 const totalElement = document.querySelector(".total");
 
-// --- 3. Format numbers with commas ---
 function formatNumber(num) {
   return Number(num).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
-// --- 4. Update individual price formatting ---
 function updatePriceDisplay() {
   const currency = currencyDropdown.value;
   const symbol = currencySymbols[currency] || currency;
@@ -261,7 +253,6 @@ function updatePriceDisplay() {
   });
 }
 
-// --- 5. Update subtotal for a row ---
 function updateSubtotal(row) {
   const qtyEl = row.querySelector(".quantity-input");
   const subtotalEl = row.querySelector(".subtotal");
@@ -277,7 +268,6 @@ function updateSubtotal(row) {
   subtotalEl.textContent = symbol + formatNumber(subtotal);
 }
 
-// --- 6. Update all subtotals and total ---
 function updateCart() {
   updatePriceDisplay(); // Update price column formatting
   
@@ -301,13 +291,12 @@ function updateCart() {
   totalElement.textContent = "Total: " + symbol + formatNumber(total);
 }
 
-// --- 7. Event listeners ---
 currencyDropdown.addEventListener("change", updateCart);
 quantityInputs.forEach(input => input.addEventListener("input", updateCart));
 
-// --- 8. Initial update ---
 updateCart();
-  const discountCodes = {
+
+const discountCodes = {
   "TEST10": 10, // 10% off
   "SAVE5": 5    // 5% off
 };
@@ -318,8 +307,60 @@ document.getElementById("apply-discount").addEventListener("click", () => {
 
   if (discountCodes[codeInput]) {
     const discountPercent = discountCodes[codeInput];
+    
+    let totalGBP = 0;
+    priceElements.forEach((priceEl, index) => {
+      const qty = parseFloat(quantityInputs[index].value);
+      const gbpPrice = parseFloat(priceEl.dataset.gbp);
+      totalGBP += gbpPrice * qty;
+    });
 
-    // Calculate total in GBP from quantities and base prices
+    const discountedTotalGBP = totalGBP * (1 - discountPercent/100);
+    const currency = currencyDropdown.value;
+    const rate = rates[currency];
+    const symbol = currencySymbols[currency] || currency;
+    const finalTotal = discountedTotalGBP * rate;
+    
+    totalElement.textContent = "Total: " + symbol + formatNumber(finalTotal);
+    discountMessage.textContent = `Discount applied: ${discountPercent}% off!`;
+  } else {
+    discountMessage.textContent = "Invalid discount code.";
+  }
+});
+
+// ----------------- PATCH: Recalculate discount on quantity or currency changes -----------------
+quantityInputs.forEach(input => {
+  input.addEventListener("input", () => {
+    updateCart();
+    const codeInput = document.getElementById("discount-code").value.trim().toUpperCase();
+    const discountMessage = document.getElementById("discount-message");
+
+    if (discountCodes[codeInput]) {
+      const discountPercent = discountCodes[codeInput];
+      let totalGBP = 0;
+      document.querySelectorAll(".price").forEach((priceEl, index) => {
+        const qty = parseFloat(document.querySelectorAll(".quantity-input")[index].value);
+        const gbpPrice = parseFloat(priceEl.dataset.gbp);
+        totalGBP += gbpPrice * qty;
+      });
+
+      const discountedTotalGBP = totalGBP * (1 - discountPercent / 100);
+      const currency = currencyDropdown.value;
+      const symbol = currencySymbols[currency] || currency;
+      const finalTotal = discountedTotalGBP * rates[currency];
+      totalElement.textContent = "Total: " + symbol + formatNumber(finalTotal);
+      discountMessage.textContent = `Discount applied: ${discountPercent}% off!`;
+    }
+  });
+});
+
+currencyDropdown.addEventListener("change", () => {
+  const codeInput = document.getElementById("discount-code").value.trim().toUpperCase();
+  const discountMessage = document.getElementById("discount-message");
+  updateCart();
+
+  if (discountCodes[codeInput]) {
+    const discountPercent = discountCodes[codeInput];
     let totalGBP = 0;
     document.querySelectorAll(".price").forEach((priceEl, index) => {
       const qty = parseFloat(document.querySelectorAll(".quantity-input")[index].value);
@@ -327,26 +368,16 @@ document.getElementById("apply-discount").addEventListener("click", () => {
       totalGBP += gbpPrice * qty;
     });
 
-    // Apply discount
     const discountedTotalGBP = totalGBP * (1 - discountPercent / 100);
-
-    // Convert to selected currency
-    const currency = document.getElementById("currency").value;
+    const currency = currencyDropdown.value;
     const symbol = currencySymbols[currency] || currency;
     const finalTotal = discountedTotalGBP * rates[currency];
-
-    // Update total display
-    document.querySelector(".total").textContent = "Total: " + symbol + formatNumber(finalTotal);
+    totalElement.textContent = "Total: " + symbol + formatNumber(finalTotal);
     discountMessage.textContent = `Discount applied: ${discountPercent}% off!`;
-  } else {
-    discountMessage.textContent = "Invalid discount code.";
   }
 });
-
 </script>
-
-
-
 
 </body>
 </html>
+
