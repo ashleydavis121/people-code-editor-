@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Cart | People Code Editor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shopping.css">
+
+</head>
+<body>
+
+<div class="cart-container">
+  <h1>Your Shopping Cart</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="product-name">People Code Editor Pro</td>
+        <td><input type="number" min="1" value="1" class="quantity-input" /></td>
+        <td class="price" data-gbp="79.99">£79.99</td>
+        <td class="subtotal" data-gbp="79.99">£79.99</td>
+        <td><button class="remove-btn">X</button></td>
+      </tr>
+      <tr>
+        <td class="product-name">AI Plugin Pack</td>
+        <td><input type="number" min="1" value="2" class="quantity-input" /></td>
+        <td class="price" data-gbp="19.99">£19.99</td>
+        <td class="subtotal" data-gbp="39.98">£39.98</td>
+        <td><button class="remove-btn">X</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="total" data-gbp="119.97">Total: £119.97</div>
+
+  <div class="discount-section" style="margin-bottom: 20px;">
+    <label for="discount-code">Discount Code:</label>
+    <input type="text" id="discount-code" placeholder="Enter code" />
+    <button id="apply-discount">Apply</button>
+    <div id="discount-message" style="color:green; margin-top:5px;"></div>
+  </div>
+
+  <button class="checkout-btn">Proceed to Checkout</button>
+</div>
+
+<script>
+const priceElements = document.querySelectorAll(".price");
+const quantityInputs = document.querySelectorAll(".quantity-input");
+const subtotalElements = document.querySelectorAll(".subtotal");
+const totalElement = document.querySelector(".total");
+
+// Format numbers
+function formatNumber(num) {
+  return Number(num).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+// Update subtotal for a row
+function updateSubtotal(row) {
+  const qty = parseFloat(row.querySelector(".quantity-input").value);
+  const gbpPrice = parseFloat(row.querySelector(".price").dataset.gbp);
+  row.querySelector(".subtotal").textContent = "£" + formatNumber(gbpPrice * qty);
+}
+
+// Update total
+function updateCart() {
+  subtotalElements.forEach(el => updateSubtotal(el.closest("tr")));
+
+  let totalGBP = 0;
+  priceElements.forEach((el, i) => {
+    const qty = parseFloat(quantityInputs[i].value);
+    totalGBP += parseFloat(el.dataset.gbp) * qty;
+  });
+
+  totalElement.textContent = "Total: £" + formatNumber(totalGBP);
+}
+
+// Event listeners
+quantityInputs.forEach(input => input.addEventListener("input", updateCart));
+
+// Discount codes
+const discountCodes = { "TEST10": 10, "SAVE5": 5 };
+document.getElementById("apply-discount").addEventListener("click", () => {
+  const codeInput = document.getElementById("discount-code").value.trim().toUpperCase();
+  const discountMessage = document.getElementById("discount-message");
+
+  if (discountCodes[codeInput]) {
+    let totalGBP = 0;
+    priceElements.forEach((el, i) => {
+      const qty = parseFloat(quantityInputs[i].value);
+      totalGBP += parseFloat(el.dataset.gbp) * qty;
+    });
+
+    const discountedTotal = totalGBP * (1 - discountCodes[codeInput]/100);
+    totalElement.textContent = "Total: £" + formatNumber(discountedTotal);
+    discountMessage.textContent = `Discount applied: ${discountCodes[codeInput]}% off!`;
+  } else {
+    discountMessage.textContent = "Invalid discount code.";
+  }
+});
+
+// Initial update
+updateCart();
+</script>
+
+</body>
+</html>
