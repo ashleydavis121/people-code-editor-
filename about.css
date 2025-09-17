@@ -84,3 +84,33 @@ header {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   display: block;
 }
+
+    /* Profile Image only */
+    .profile-image {
+      position: absolute;
+      top: 20px;   /* adjust distance from top */
+      left: 20px;  /* adjust distance from left */
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    main {
+      padding-top: 160px; /* leave space so text doesn't overlap image */
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffcc00;
+    }
+
+    p {
+      line-height: 1.8;
+      text-align: center;
+      font-size: 1.1em;
+    }
