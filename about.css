@@ -1,5 +1,42 @@
 
 
+/* Global header */
+header {
+  background-color: #004cff; /* same blue as homepage */
+  padding: 15px 20px;
+}
+
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+header nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active {
+  color: #ffcc00; /* highlight */
+}
+
+/* Footer */
+footer {
+  background-color: #004cff; /* same blue as header */
+  color: #ffffff;
+  text-align: center;
+  padding: 15px 10px;
+  margin-top: 40px;
+  font-size: 0.9em;
+}
+
+/* About Us container */
 .about-container {
   display: flex;
   align-items: flex-start; /* Align image and text at the top */
@@ -25,3 +62,4 @@
 .about-container p {
   line-height: 1.8;
   font-size: 1.1em;
+}
